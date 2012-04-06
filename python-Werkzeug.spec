@@ -4,7 +4,6 @@
 
 %define 	module	Werkzeug
 Summary:	The Swiss Army knife of Python web development
-#Summary(pl.UTF-8):	-
 Name:		python-%{module}
 Version:	0.8.3
 Release:	0.1
@@ -15,10 +14,8 @@ Source0:	http://pypi.python.org/packages/source/W/Werkzeug/%{module}-%{version}.
 URL:		http://werkzeug.pocoo.org/
 BuildRequires:	python-distribute
 BuildRequires:	rpm-pythonprov
-# if py_postclean is used
 BuildRequires:	rpmbuild(macros) >= 1.219
-#Requires:		python-libs
-Requires:		python-modules
+Requires:	python-modules
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -29,8 +26,6 @@ modules. It includes a powerful debugger, full featured request and
 response objects, HTTP utilities to handle entity tags, cache control
 headers, HTTP dates, cookie handling, file uploads, a powerful URL
 routing system and a bunch of community contributed addon modules.
-
-%description -l pl.UTF-8
 
 %prep
 %setup -q -n %{module}-%{version}
