@@ -6,14 +6,14 @@
 %bcond_without  python2 # CPython 2.x module
 %bcond_without  python3 # CPython 3.x module
 
-%define 	module	Werkzeug
+%define 	module	werkzeug
 Summary:	The Swiss Army knife of Python web development
 Name:		python-%{module}
 Version:	0.9.6
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Languages/Python
-Source0:	http://pypi.python.org/packages/source/W/Werkzeug/%{module}-%{version}.tar.gz
+Source0:	http://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
 # Source0-md5:	f7afcadc03b0f2267bdc156c34586043
 URL:		http://werkzeug.pocoo.org/
 %if %{with python2}
@@ -57,7 +57,7 @@ routing system and a bunch of community contributed addon modules.
 # %description -n python3-%{module} -l pl.UTF-8
 
 %prep
-%setup -q -n %{module}-%{version}
+%setup -q -n Werkzeug-%{version}
 
 %build
 %if %{with python2}
@@ -115,7 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS CHANGES
 %{py_sitescriptdir}/werkzeug
 %if "%{py_ver}" > "2.4"
-%{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
+%{py_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
 %endif
 %{_examplesdir}/%{name}-%{version}
 %endif
@@ -124,7 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-%{module}
 %defattr(644,root,root,755)
 %doc AUTHORS CHANGES LICENSE
-%{py3_sitescriptdir}/werkzeug
-%{py3_sitescriptdir}/%{module}-%{version}-py*.egg-info
+%{py3_sitescriptdir}/%{module}
+%{py3_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
 %{_examplesdir}/python3-%{module}-%{version}
 %endif
