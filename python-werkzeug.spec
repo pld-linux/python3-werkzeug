@@ -10,7 +10,7 @@
 Summary:	The Swiss Army knife of Python web development
 Name:		python-%{module}
 Version:	0.9.6
-Release:	3
+Release:	4
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
