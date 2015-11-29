@@ -19,7 +19,7 @@ URL:		http://werkzeug.pocoo.org/
 %if %{with python2}
 BuildRequires:	python-distribute
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.710
 Requires:	python-modules
 %endif
 %if %{with python3}
