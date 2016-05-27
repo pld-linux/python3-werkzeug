@@ -9,12 +9,13 @@
 %define 	module	werkzeug
 Summary:	The Swiss Army knife of Python web development
 Name:		python-%{module}
-Version:	0.9.6
-Release:	5
+Version:	0.11.10
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
-Source0:	http://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
-# Source0-md5:	f7afcadc03b0f2267bdc156c34586043
+# Source0:	http://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
+Source0:	https://github.com/pallets/werkzeug/archive/%{version}.tar.gz
+# Source0-md5:	5010591f97c36722027bd23ade0029e3
 URL:		http://werkzeug.pocoo.org/
 %if %{with python2}
 BuildRequires:	python-distribute
@@ -57,7 +58,7 @@ routing system and a bunch of community contributed addon modules.
 # %description -n python3-%{module} -l pl.UTF-8
 
 %prep
-%setup -q -n Werkzeug-%{version}
+%setup -q -n werkzeug-%{version}
 
 %build
 %if %{with python2}
