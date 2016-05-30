@@ -1,5 +1,3 @@
-# TODO: rename to  python-werkzeug
-#
 # Conditional build:
 # %bcond_without  doc             # don't build doc
 %bcond_with  tests   # do not perform "make test"
@@ -10,7 +8,7 @@
 Summary:	The Swiss Army knife of Python web development
 Name:		python-%{module}
 Version:	0.11.10
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Languages/Python
 # Source0:	http://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
@@ -27,9 +25,7 @@ Requires:	python-modules
 BuildRequires:	python3-devel
 BuildRequires:	python3-distribute
 BuildRequires:	python3-modules
-Requires:	python3-modules
 %endif
-
 
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -46,6 +42,7 @@ routing system and a bunch of community contributed addon modules.
 Summary:	The Swiss Army knife of Python web development
 Summary(pl.UTF-8):	Zbiór narzędzi dla rozwouju aplikacji sieciowych dla Pythona
 Group:		Libraries/Python
+Requires:	python3-modules
 
 %description -n python3-%{module}
 Werkzeug started as simple collection of various utilities for WSGI
@@ -54,6 +51,7 @@ modules. It includes a powerful debugger, full featured request and
 response objects, HTTP utilities to handle entity tags, cache control
 headers, HTTP dates, cookie handling, file uploads, a powerful URL
 routing system and a bunch of community contributed addon modules.
+
 
 # %description -n python3-%{module} -l pl.UTF-8
 
