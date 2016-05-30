@@ -1,5 +1,6 @@
 # Conditional build:
-# %bcond_without  doc             # don't build doc
+#
+%bcond_with  doc             # don't build doc
 %bcond_with  tests   # do not perform "make test"
 %bcond_without  python2 # CPython 2.x module
 %bcond_without  python3 # CPython 3.x module
@@ -26,7 +27,6 @@ BuildRequires:	python3-devel
 BuildRequires:	python3-distribute
 BuildRequires:	python3-modules
 %endif
-
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -52,9 +52,6 @@ response objects, HTTP utilities to handle entity tags, cache control
 headers, HTTP dates, cookie handling, file uploads, a powerful URL
 routing system and a bunch of community contributed addon modules.
 
-
-# %description -n python3-%{module} -l pl.UTF-8
-
 %prep
 %setup -q -n werkzeug-%{version}
 
@@ -67,31 +64,26 @@ routing system and a bunch of community contributed addon modules.
 %py3_build %{?with_tests:test}
 %endif
 
-
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %if %{with python2}
 %py_install
-
 %py_postclean
+
+install -d $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
+cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
+find $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version} -name '*.py' \
+	| xargs sed -i '1s|^#!.*python\b|#!%{__python}|'
 %endif
 
 %if %{with python3}
 %py3_install
-%endif
 
-%if %{with python2}
-install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
-cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
-%endif
-%if %{with python3}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
 cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
 find $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version} -name '*.py' \
-        | xargs sed -i '1s|^#!.*python\b|#!%{__python3}|'
+	| xargs sed -i '1s|^#!.*python\b|#!%{__python3}|'
 %endif
-%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -101,10 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CHANGES
 %{py_sitescriptdir}/werkzeug
-%if "%{py_ver}" > "2.4"
 %{py_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
-%endif
-%{_examplesdir}/%{name}-%{version}
+%{_examplesdir}/python-%{module}-%{version}
 %endif
 
 %if %{with python3}
