@@ -1,32 +1,42 @@
-# Conditional build:
 #
-%bcond_with  doc             # don't build doc
-%bcond_with  tests   # do not perform "make test"
-%bcond_without  python2 # CPython 2.x module
-%bcond_without  python3 # CPython 3.x module
+# Conditional build:
+%bcond_without	doc	# Sphinx documentation
+%bcond_with	tests	# test action
+%bcond_without	python2	# CPython 2.x module
+%bcond_without	python3	# CPython 3.x module
 
 %define 	module	werkzeug
 Summary:	The Swiss Army knife of Python web development
+Summary(pl.UTF-8):	Scyzoryk szwajcarski programisty aplikacji WWW
 Name:		python-%{module}
-Version:	0.11.10
-Release:	3
+Version:	0.11.15
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
-# Source0:	http://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
-Source0:	https://github.com/pallets/werkzeug/archive/%{version}.tar.gz
-# Source0-md5:	5010591f97c36722027bd23ade0029e3
+# pypi release misses docs/_themes directory
+##Source0Download: https://pypi.python.org/simple/Werkzeug
+#Source0:	https://files.pythonhosted.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
+#Source0Download: https://github.com/pallets/werkzeug/releases
+Source0:	https://github.com/pallets/werkzeug/archive/%{version}/werkzeug-%{version}.tar.gz
+# Source0-md5:	9cb2ba56c694dbd5863ed1b13ce478c2
+Patch0:		%{name}-py3.patch
 URL:		http://werkzeug.pocoo.org/
 %if %{with python2}
-BuildRequires:	python-distribute
-BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.710
-Requires:	python-modules
+BuildRequires:	python-devel >= 1:2.6
+BuildRequires:	python-modules >= 1:2.6
+BuildRequires:	python-setuptools
 %endif
 %if %{with python3}
-BuildRequires:	python3-devel
-BuildRequires:	python3-distribute
-BuildRequires:	python3-modules
+BuildRequires:	python3-devel >= 1:3.3
+BuildRequires:	python3-modules >= 1:3.3
+BuildRequires:	python3-setuptools
 %endif
+BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.714
+%if %{with doc}
+BuildRequires:	sphinx-pdg
+%endif
+Requires:	python-modules >= 1:2.6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -38,11 +48,20 @@ response objects, HTTP utilities to handle entity tags, cache control
 headers, HTTP dates, cookie handling, file uploads, a powerful URL
 routing system and a bunch of community contributed addon modules.
 
+%description -l pl.UTF-8
+Werkzeug początkowo był prostym zbiorem różnych narzędzi dla aplikacji
+WSGI, a stał się jednym z najbardziej zaawansowanych modułów
+narzędziowych WSGI. Zawiera potężny debugger, obiekty żądania i
+odpowiedzi z pełną funkcjonalnością, narzędzia HTTP do obsługi
+znaczników encji, nagłówki sterujące buforowaniem, daty HTTP, obsługę
+ciasteczek, przesyłanie plików, potężny system trasowania URL oraz
+wiele dodatkowych modułów udostępnionych przez społeczność.
+
 %package -n python3-%{module}
 Summary:	The Swiss Army knife of Python web development
-Summary(pl.UTF-8):	Zbiór narzędzi dla rozwouju aplikacji sieciowych dla Pythona
+Summary(pl.UTF-8):	Scyzoryk szwajcarski programisty aplikacji WWW
 Group:		Libraries/Python
-Requires:	python3-modules
+Requires:	python3-modules >= 1:3.3
 
 %description -n python3-%{module}
 Werkzeug started as simple collection of various utilities for WSGI
@@ -52,8 +71,29 @@ response objects, HTTP utilities to handle entity tags, cache control
 headers, HTTP dates, cookie handling, file uploads, a powerful URL
 routing system and a bunch of community contributed addon modules.
 
+%description -n python3-%{module} -l pl.UTF-8
+Werkzeug początkowo był prostym zbiorem różnych narzędzi dla aplikacji
+WSGI, a stał się jednym z najbardziej zaawansowanych modułów
+narzędziowych WSGI. Zawiera potężny debugger, obiekty żądania i
+odpowiedzi z pełną funkcjonalnością, narzędzia HTTP do obsługi
+znaczników encji, nagłówki sterujące buforowaniem, daty HTTP, obsługę
+ciasteczek, przesyłanie plików, potężny system trasowania URL oraz
+wiele dodatkowych modułów udostępnionych przez społeczność.
+
+%package apidocs
+Summary:	Documentation for Python Werkzeug package
+Summary(pl.UTF-8):	Dokumentacja do pakietu Pythona Werkzeug
+Group:		Documentation
+
+%description apidocs
+Documentation for Python Werkzeug package.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja do pakietu Pythona Werkzeug.
+
 %prep
 %setup -q -n werkzeug-%{version}
+%patch0 -p1
 
 %build
 %if %{with python2}
@@ -62,6 +102,11 @@ routing system and a bunch of community contributed addon modules.
 
 %if %{with python3}
 %py3_build %{?with_tests:test}
+%endif
+
+%if %{with doc}
+PYTHONPATH=$(pwd) \
+%{__make} -C docs html
 %endif
 
 %install
@@ -91,7 +136,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES
+%doc AUTHORS CHANGES LICENSE README.rst
 %{py_sitescriptdir}/werkzeug
 %{py_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
 %{_examplesdir}/python-%{module}-%{version}
@@ -100,8 +145,14 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 %files -n python3-%{module}
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES LICENSE
-%{py3_sitescriptdir}/%{module}
+%doc AUTHORS CHANGES LICENSE README.rst
+%{py3_sitescriptdir}/werkzeug
 %{py3_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
 %{_examplesdir}/python3-%{module}-%{version}
+%endif
+
+%if %{with doc}
+%files apidocs
+%defattr(644,root,root,755)
+%doc docs/_build/html/{_images,_static,contrib,deployment,*.html,*.js}
 %endif
