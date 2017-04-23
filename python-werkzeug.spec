@@ -9,7 +9,7 @@
 Summary:	The Swiss Army knife of Python web development
 Summary(pl.UTF-8):	Scyzoryk szwajcarski programisty aplikacji WWW
 Name:		python-%{module}
-Version:	0.11.15
+Version:	0.12.1
 Release:	1
 License:	BSD
 Group:		Development/Languages/Python
@@ -18,18 +18,47 @@ Group:		Development/Languages/Python
 #Source0:	https://files.pythonhosted.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
 #Source0Download: https://github.com/pallets/werkzeug/releases
 Source0:	https://github.com/pallets/werkzeug/archive/%{version}/werkzeug-%{version}.tar.gz
-# Source0-md5:	9cb2ba56c694dbd5863ed1b13ce478c2
-Patch0:		%{name}-py3.patch
+# Source0-md5:	d49e5b9e4c5c1fa2e1d783f5ad69cc87
 URL:		http://werkzeug.pocoo.org/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	python-modules >= 1:2.6
 BuildRequires:	python-setuptools
+%if %{with tests}
+BuildRequires:	python-greenlet
+BuildRequires:	python-hypothesis
+# optional
+#BuildRequires:	python-memcached
+BuildRequires:	python-pyOpenSSL
+BuildRequires:	python-pytest
+# optional
+#BuildRequires:	python-pytest-xprocess
+# optional
+#BuildRequires:	python-redis
+BuildRequires:	python-requests
+# optional
+#BuildRequires:	python-watchdog
+%endif
 %endif
 %if %{with python3}
 BuildRequires:	python3-devel >= 1:3.3
 BuildRequires:	python3-modules >= 1:3.3
 BuildRequires:	python3-setuptools
+%if %{with tests}
+BuildRequires:	python3-greenlet
+BuildRequires:	python3-hypothesis
+# optional
+#BuildRequires:	python3-memcached
+BuildRequires:	python3-pyOpenSSL
+BuildRequires:	python3-pytest
+# optional
+#BuildRequires:	python3-pytest-xprocess
+# optional
+#BuildRequires:	python3-redis
+BuildRequires:	python3-requests
+# optional
+#BuildRequires:	python3-watchdog
+%endif
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
@@ -93,7 +122,6 @@ Dokumentacja do pakietu Pythona Werkzeug.
 
 %prep
 %setup -q -n werkzeug-%{version}
-%patch0 -p1
 
 %build
 %if %{with python2}
