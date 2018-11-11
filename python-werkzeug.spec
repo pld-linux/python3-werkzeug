@@ -5,12 +5,12 @@
 %bcond_without	python2	# CPython 2.x module
 %bcond_without	python3	# CPython 3.x module
 
-%define 	module	werkzeug
+%define		module	werkzeug
 Summary:	The Swiss Army knife of Python web development
 Summary(pl.UTF-8):	Scyzoryk szwajcarski programisty aplikacji WWW
 Name:		python-%{module}
-Version:	0.12.1
-Release:	2
+Version:	0.14.1
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 # pypi release misses docs/_themes directory
@@ -18,7 +18,7 @@ Group:		Development/Languages/Python
 #Source0:	https://files.pythonhosted.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
 #Source0Download: https://github.com/pallets/werkzeug/releases
 Source0:	https://github.com/pallets/werkzeug/archive/%{version}/werkzeug-%{version}.tar.gz
-# Source0-md5:	d49e5b9e4c5c1fa2e1d783f5ad69cc87
+# Source0-md5:	9f8c9c008e0675ac96ba34f6db4375f9
 URL:		http://werkzeug.pocoo.org/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.6
@@ -164,7 +164,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES LICENSE README.rst
+%doc AUTHORS CHANGES.rst LICENSE README.rst
 %{py_sitescriptdir}/werkzeug
 %{py_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
 %{_examplesdir}/python-%{module}-%{version}
@@ -173,7 +173,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 %files -n python3-%{module}
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES LICENSE README.rst
+%doc AUTHORS CHANGES.rst LICENSE README.rst
 %{py3_sitescriptdir}/werkzeug
 %{py3_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
 %{_examplesdir}/python3-%{module}-%{version}
