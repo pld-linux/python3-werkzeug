@@ -9,8 +9,8 @@
 Summary:	The Swiss Army knife of Python web development
 Summary(pl.UTF-8):	Scyzoryk szwajcarski programisty aplikacji WWW
 Name:		python-%{module}
-Version:	0.14.1
-Release:	2
+Version:	0.16.0
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 # pypi release misses docs/_themes directory
@@ -18,7 +18,7 @@ Group:		Development/Languages/Python
 #Source0:	https://files.pythonhosted.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
 #Source0Download: https://github.com/pallets/werkzeug/releases
 Source0:	https://github.com/pallets/werkzeug/archive/%{version}/werkzeug-%{version}.tar.gz
-# Source0-md5:	9f8c9c008e0675ac96ba34f6db4375f9
+# Source0-md5:	e2d3061005cc442d80a118b42f8f3e11
 URL:		http://werkzeug.pocoo.org/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.6
@@ -63,6 +63,7 @@ BuildRequires:	python3-requests
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %if %{with doc}
+BuildRequires:	python3-sphinx_issues
 BuildRequires:	sphinx-pdg
 %endif
 Requires:	python-modules >= 1:2.6
@@ -164,7 +165,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES.rst LICENSE README.rst
+%doc CHANGES.rst LICENSE.rst README.rst
 %{py_sitescriptdir}/werkzeug
 %{py_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
 %{_examplesdir}/python-%{module}-%{version}
@@ -173,7 +174,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 %files -n python3-%{module}
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES.rst LICENSE README.rst
+%doc CHANGES.rst LICENSE.rst README.rst
 %{py3_sitescriptdir}/werkzeug
 %{py3_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
 %{_examplesdir}/python3-%{module}-%{version}
