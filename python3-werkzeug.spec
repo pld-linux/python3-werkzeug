@@ -6,9 +6,9 @@
 %define		module	werkzeug
 Summary:	The Swiss Army knife of Python web development
 Summary(pl.UTF-8):	Scyzoryk szwajcarski programisty aplikacji WWW
-Name:		python-%{module}
+Name:		python3-%{module}
 Version:	2.0.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Languages/Python
 # pypi release misses docs/_themes directory
