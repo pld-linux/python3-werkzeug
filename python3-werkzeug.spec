@@ -37,6 +37,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %if %{with doc}
 BuildRequires:	python3-pallets-sphinx-themes
+BuildRequires:	python3-pylons-sphinx-themes
 BuildRequires:	python3-sphinx_issues
 BuildRequires:	python3-sphinxcontrib-log-cabinet
 BuildRequires:	sphinx-pdg-3
