@@ -7,8 +7,8 @@
 Summary:	The Swiss Army knife of Python web development
 Summary(pl.UTF-8):	Scyzoryk szwajcarski programisty aplikacji WWW
 Name:		python3-%{module}
-Version:	2.0.2
-Release:	5
+Version:	2.2.2
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 # pypi release misses docs/_themes directory
@@ -16,7 +16,7 @@ Group:		Development/Languages/Python
 #Source0:	https://files.pythonhosted.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
 #Source0Download: https://github.com/pallets/werkzeug/releases
 Source0:	https://github.com/pallets/werkzeug/archive/%{version}/werkzeug-%{version}.tar.gz
-# Source0-md5:	83f72a2fe8bbbe851a0e9e75994f8c49
+# Source0-md5:	b822ba33e34f25c630e462457609c12f
 URL:		https://werkzeug.palletsprojects.com/
 BuildRequires:	python3-devel >= 1:3.6
 BuildRequires:	python3-modules >= 1:3.6
