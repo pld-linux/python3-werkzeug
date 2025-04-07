@@ -7,8 +7,8 @@
 Summary:	The Swiss Army knife of Python web development
 Summary(pl.UTF-8):	Scyzoryk szwajcarski programisty aplikacji WWW
 Name:		python3-%{module}
-Version:	2.2.3
-Release:	3
+Version:	3.1.3
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 # pypi release misses docs/_themes directory
@@ -16,11 +16,12 @@ Group:		Development/Languages/Python
 #Source0:	https://files.pythonhosted.org/packages/source/W/Werkzeug/Werkzeug-%{version}.tar.gz
 #Source0Download: https://github.com/pallets/werkzeug/releases
 Source0:	https://github.com/pallets/werkzeug/archive/%{version}/werkzeug-%{version}.tar.gz
-# Source0-md5:	3da84b7479521f8e8c2003cc4006b439
+# Source0-md5:	1ef8005efcc0602d4a74359ac521b9d2
 URL:		https://werkzeug.palletsprojects.com/
 BuildRequires:	python3-devel >= 1:3.7
 BuildRequires:	python3-modules >= 1:3.7
-BuildRequires:	python3-setuptools
+BuildRequires:	python3-build
+BuildRequires:	python3-installer
 %if %{with tests}
 BuildRequires:	python3-cryptography
 BuildRequires:	python3-ephemeral_port_reserve
@@ -31,8 +32,7 @@ BuildRequires:	python3-pytest
 BuildRequires:	python3-pytest-timeout
 BuildRequires:	python3-pytest-xprocess
 BuildRequires:	python3-requests
-# optional
-#BuildRequires:	python3-watchdog
+BuildRequires:	python3-watchdog
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
@@ -78,7 +78,7 @@ Dokumentacja do pakietu Pythona Werkzeug.
 %setup -q -n werkzeug-%{version}
 
 %build
-%py3_build
+%py3_build_pyproject
 
 %if %{with tests}
 LC_ALL=C.UTF-8 \
@@ -91,7 +91,8 @@ PYTHONPATH=$(pwd)/src \
 %endif
 
 %if %{with doc}
-PYTHONPATH=$(pwd)/src \
+%{__python3} -m zipfile -e build-3/*.whl build-3-doc
+PYTHONPATH=$(pwd)/build-3-doc \
 %{__make} -C docs html \
 	SPHINXBUILD=sphinx-build-3
 %endif
@@ -99,7 +100,7 @@ PYTHONPATH=$(pwd)/src \
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%py3_install
+%py3_install_pyproject
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
 cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
@@ -111,9 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGES.rst LICENSE.rst README.rst
+%doc CHANGES.rst LICENSE.txt README.md
 %{py3_sitescriptdir}/werkzeug
-%{py3_sitescriptdir}/Werkzeug-%{version}-py*.egg-info
+%{py3_sitescriptdir}/werkzeug-%{version}.dist-info
 %{_examplesdir}/python3-%{module}-%{version}
 
 %if %{with doc}
