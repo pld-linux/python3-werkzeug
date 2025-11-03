@@ -18,31 +18,30 @@ Group:		Development/Languages/Python
 Source0:	https://github.com/pallets/werkzeug/archive/%{version}/werkzeug-%{version}.tar.gz
 # Source0-md5:	1ef8005efcc0602d4a74359ac521b9d2
 URL:		https://werkzeug.palletsprojects.com/
-BuildRequires:	python3-devel >= 1:3.7
-BuildRequires:	python3-modules >= 1:3.7
 BuildRequires:	python3-build
+BuildRequires:	python3-devel >= 1:3.9
+BuildRequires:	python3-flit_core < 4
 BuildRequires:	python3-installer
+BuildRequires:	python3-modules >= 1:3.9
 %if %{with tests}
+BuildRequires:	python3-cffi
 BuildRequires:	python3-cryptography
 BuildRequires:	python3-ephemeral_port_reserve
-BuildRequires:	python3-greenlet
+BuildRequires:	python3-greenlet >= 1.0
 BuildRequires:	python3-markupsafe >= 2.1.1
-BuildRequires:	python3-pyOpenSSL
 BuildRequires:	python3-pytest
 BuildRequires:	python3-pytest-timeout
-BuildRequires:	python3-pytest-xprocess
 BuildRequires:	python3-requests
-BuildRequires:	python3-watchdog
+BuildRequires:	python3-watchdog >= 2.3
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.714
+BuildRequires:	rpmbuild(macros) >= 2.044
 %if %{with doc}
 BuildRequires:	python3-pallets-sphinx-themes
-BuildRequires:	python3-sphinx_issues
 BuildRequires:	python3-sphinxcontrib-log-cabinet
 BuildRequires:	sphinx-pdg-3
 %endif
-Requires:	python3-modules >= 1:3.7
+Requires:	python3-modules >= 1:3.9
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -83,7 +82,7 @@ Dokumentacja do pakietu Pythona Werkzeug.
 %if %{with tests}
 LC_ALL=C.UTF-8 \
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-PYTEST_PLUGINS=pytest_timeout,xprocess.pytest_xprocess \
+PYTEST_PLUGINS=pytest_timeout \
 PYTHONPATH=$(pwd)/src \
 %{__python3} -m pytest tests -m 'not dev_server' -k 'not test_exclude_patterns'
 # dev_server tests fail with connection refused(?)
